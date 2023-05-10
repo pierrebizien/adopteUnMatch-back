@@ -1,3 +1,5 @@
+
+const req_prisma = require('./req_prisma.js');
 const express = require('express');
 
 const app = express();
@@ -11,8 +13,10 @@ app.use((req, res, next) => {
 });
 
 app.post('/api/stuff', (req, res, next) => {
-  console.log(req.body);
-  // console.log('appel via api stuff')
+  // console.log(req.body);
+  req_prisma.createTeam(req.body);
+  // .then(console.log('EQUIPE CREE'))
+  // .catch(e => console.log(e));
   res.status(201).json({
     message: 'Objet créé !'
   });
