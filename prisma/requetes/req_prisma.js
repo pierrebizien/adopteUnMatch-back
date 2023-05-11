@@ -4,8 +4,7 @@ const prisma = new PrismaClient();
 
 module.exports = {
  createTeam: async function (dataToCreate) {
-    return (await prisma.team.create({
-      data: dataToCreate}))
+    const team = await prisma.team.create({data: dataToCreate})
   }
 }
 
