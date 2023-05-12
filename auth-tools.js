@@ -14,17 +14,23 @@ function managePassword(req, res, next, user)
 {
 	if (!user)
 	{
+		console.log('AUTH RATEE');
+		res.status(401).json({
+			message: "Authentification ratée",
+			error_code: 1,
+			token: null
+		})
 		return ;
-		//manageFailauth
 	}
 	console.log('ici', user.password, req.body.password);
 	isValidPassword(user, req.body.password)
-	.then( valid => {
+	.then(valid => {
 		if (valid)
 		{
 			console.log('AUTH REUSSIE');
 			res.status(201).json({
 				message: "Authentification réussie",
+				error_code: 0,
 				userId: user.id,
                 token: jwt.sign(
 					{ userId: user.id },
@@ -35,9 +41,11 @@ function managePassword(req, res, next, user)
 		}
 		else
 		{
-			console.log('AUTH RATEE')
+			console.log('AUTH RATEE');
 			res.status(401).json({
-				message: "Authentification ratée"
+				message: "Authentification ratée",
+				error_code: 1,
+				token: null
 			})
 		}
 
