@@ -1,10 +1,13 @@
-
-const req_prisma = require('./prisma/requetes/req_prisma.js');
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+require('./prisma/requetes/req_prisma.js');
+const isValidPassword = require('./auth-tools.js');
+const managePassword = require('./auth-tools.js');
 const express = require('express');
 const bcrypt = require('bcrypt')
 const passport = require('passport')
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const localStrategy = require('passport-local')
+const jwt = require ('jsonwebtoken')
 const app = express();
 const {createTeamBack} = require('./create.js')
 
@@ -19,8 +22,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(passport.initialize());
-
 
 app.post('/api/createteam', (req, res, next) => {
 	bcrypt.hash(req.body.password, 10)
@@ -32,8 +33,17 @@ app.post('/api/createteam', (req, res, next) => {
 		})
 	.catch (e => console.log(e));
 	
+});
+
+app.post('/api/login', (req, res, next) =>
+{
+	prisma.Team.findFirst({
+		where : {login: req.body.login}
+	})
+	.then(user => {
+		managePassword(req, res, next, user);
+	})
+	.catch(err => console.log(err))
 })
-
-
 
 module.exports = app;
