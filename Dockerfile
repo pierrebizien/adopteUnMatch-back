@@ -2,7 +2,7 @@
 
 # Adjust NODE_VERSION as desired
 ARG NODE_VERSION=16.20.0
-FROM node:${NODE_VERSION}-slim as base
+FROM node:lts-slim as base
 
 LABEL fly_launch_runtime="NodeJS"
 
@@ -22,15 +22,14 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY --link package.json package-lock.json .
+COPY prisma ./prisma/
 RUN npm install
-RUN npx prisma generate
+
 
 
 # Copy application code
 COPY --link . .
-COPY --link ./prisma/ prisma
-COPY --link ./routes/ routes
-COPY --link ./controllers/ controllers
+
 
 
 # Final stage for app image
