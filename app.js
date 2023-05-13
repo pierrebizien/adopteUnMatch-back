@@ -18,26 +18,29 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use ('/', (req, res, next) =>{
-// 	res.status(200).json({message : 'requete recue'});
-// 	next();
-// }
+app.use ('/', (req, res, next) =>{
+	console.log('REQ CLASSIQUE')
+	res.status(200).json({message : 'requete recue'});
+	next();
+})
 
 
-// app.post('/api/createteam', (req, res, next) => {
-// 	bcrypt.hash(req.body.password, 10)
-// 	.then (hash => 
-// 		{
-// 			const data = req.body;
-// 			data.password = hash;
-// 			createTeamBack(req, res, next, data);
-// 		})
-// 	.catch (e => console.log(e));
+app.post('/api/createteam', (req, res, next) => {
+	console.log('REQ CreatTeam')
+	bcrypt.hash(req.body.password, 10)
+	.then (hash => 
+		{
+			const data = req.body;
+			data.password = hash;
+			createTeamBack(req, res, next, data);
+		})
+	.catch (e => console.log(e));
 	
-// });
+});
 
 app.post('/api/login', (req, res, next) =>
 {
+	console.log('REQ Login')
 	prisma.Team.findFirst({
 		where : {login: req.body.login}
 	})
@@ -50,6 +53,8 @@ app.post('/api/login', (req, res, next) =>
 
 app.get('/api/verifToken', (req, res, next) =>
 {
+	console.log('REQ VerifToken')
+
 	try {
 		// console.log('coucou')
 		const token = req.header('authorization').split(' ')[1];
@@ -65,31 +70,33 @@ app.get('/api/verifToken', (req, res, next) =>
 	// res.status(200).json({message: "REQUETE RECUE"});
 })
 
-// app.get('/api/global/getname', (req, res, next) => 
-// {
-// 	console.log("hey");
-// 	const decodedToken = checkToken(req, res, next);
-// 	if (decodedToken)
-// 	{
-// 		req_prisma.getTeamById(decodedToken.userId)
-// 		.then(resReq => {
-// 			console.log(resReq);
-// 			res.status(200).json(resReq);
-// 		})
-// 		.catch(e => 
-// 			{
-// 				console.log(e);
-// 				res.status(401).json({
-// 					error_message : 'Une erreur est survenue lors de la collection des donnees'
-// 				})
-// 			});
-// 	}
-// 	else
-// 	{
-// 		res.status(401).json({
-// 			name: "No Name (Wrong Token)"
-// 		})
-// 	}
-// })
+app.get('/api/global/getname', (req, res, next) => 
+{
+	console.log('REQ GetName')
+
+	console.log("hey");
+	const decodedToken = checkToken(req, res, next);
+	if (decodedToken)
+	{
+		req_prisma.getTeamById(decodedToken.userId)
+		.then(resReq => {
+			console.log(resReq);
+			res.status(200).json(resReq);
+		})
+		.catch(e => 
+			{
+				console.log(e);
+				res.status(401).json({
+					error_message : 'Une erreur est survenue lors de la collection des donnees'
+				})
+			});
+	}
+	else
+	{
+		res.status(401).json({
+			name: "No Name (Wrong Token)"
+		})
+	}
+})
 
 module.exports = app;
