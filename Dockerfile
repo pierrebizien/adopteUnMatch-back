@@ -23,10 +23,14 @@ RUN apt-get update -qq && \
 # Install node modules
 COPY --link package.json package-lock.json .
 RUN npm install
+RUN npx prisma generate
+
 
 # Copy application code
 COPY --link . .
-
+COPY --link ./prisma/ prisma
+COPY --link ./routes/ routes
+COPY --link ./controllers/ controllers
 
 
 # Final stage for app image
