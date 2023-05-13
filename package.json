@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "launch_fly" : "curl -L https://fly.io/install.sh | sh && export FLYCTL_INSTALL='/mnt/nfs/homes/pbizien/.fly' && export PATH='$FLYCTL_INSTALL/bin:$PATH'"
   },
   "repository": {
     "type": "git",
