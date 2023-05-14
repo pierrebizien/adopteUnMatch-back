@@ -14,3 +14,6 @@ primary_region = "cdg"
   force_https = true
   auto_stop_machines = true
   auto_start_machines = true
+
+[deploy]
+  release_command = "cd app && npx prisma migrate deploy"
