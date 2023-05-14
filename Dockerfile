@@ -24,7 +24,6 @@ RUN apt-get update -qq && \
 COPY --link package.json package-lock.json .
 COPY prisma ./prisma/
 RUN npm install
-RUN npx prisma migrate deploy
 
 
 

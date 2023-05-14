@@ -16,4 +16,4 @@ primary_region = "cdg"
   auto_start_machines = true
 
 [deploy]
-  release_command = "cd app && npx prisma migrate deploy"
+  release_command = "npx prisma migrate deploy"
