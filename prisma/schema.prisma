@@ -11,9 +11,27 @@ datasource db {
 }
 
 model Team {
-  id        Int      @id @default(autoincrement())
-  login     String   @unique
+  id        Int         @id @default(autoincrement())
+  login     String      @unique
   password	String	 
-  name      String   @unique
-  city      String   @db.VarChar(255) 
+  name      String      @unique
+  city      String      @db.VarChar(255)
+  player1   String?     @default("Player 1")
+  player2   String?     @default("Player 2")
+  player3   String?     @default("Player 3")
+  player4   String?     @default("Player 4")
+  player5   String?     @default("Player 5")
+  homeMatches Match[]   @relation("HomeTeam")
+  awayMatches Match[]   @relation("AwayTeam")
+}
+
+model Match {
+  id        Int         @id @default(autoincrement())
+  city      String
+  teamHome     Team       @relation("HomeTeam", fields: [teamHomeId], references: [id])
+  teamHomeId   Int
+  teamAway     Team       @relation("AwayTeam", fields: [teamAwayId], references: [id])
+  teamAwayId   Int
+  date      DateTime    
+  status    Int         @default(0)
 }

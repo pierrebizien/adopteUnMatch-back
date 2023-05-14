@@ -39,5 +39,5 @@ FROM base
 COPY --from=build /app /app
 
 # Start the server by default, this can be overwritten at runtime
-RUN npx prisma generate
+# RUN npx prisma generate
 CMD [ "npm", "run", "start" ]
