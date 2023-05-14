@@ -18,11 +18,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use ('/', (req, res, next) =>{
-	console.log('REQ CLASSIQUE')
-	res.status(200).json({message : 'requete recue'});
-	next();
-})
+// app.get('/', (req, res, next) =>{
+// 	console.log('REQ CLASSIQUE')
+// 	res.status(200).json({message : 'requete recue'});
+// 	next();
+// })
 
 
 app.post('/api/createteam', (req, res, next) => {
