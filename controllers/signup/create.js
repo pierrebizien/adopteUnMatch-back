@@ -1,4 +1,4 @@
-const req_prisma = require('./prisma/requetes/req_prisma.js');
+const req_prisma = require('../../prisma/requetes/req_prisma.js');
 const express = require('express');
  
 module.exports = {
