@@ -30,8 +30,8 @@ model Match {
   city      String
   teamHome     Team       @relation("HomeTeam", fields: [teamHomeId], references: [id])
   teamHomeId   Int
-  teamAway     Team       @relation("AwayTeam", fields: [teamAwayId], references: [id])
-  teamAwayId   Int
+  teamAway     Team?      @relation("AwayTeam", fields: [teamAwayId], references: [id])
+  teamAwayId   Int?
   date      DateTime    
   status    Int         @default(0)
 }

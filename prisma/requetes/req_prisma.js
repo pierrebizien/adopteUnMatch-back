@@ -9,8 +9,17 @@ module.exports = {
   getTeamById : async function (id) 
   {
     return (await prisma.team.findFirst({
-      where : {id: id}
+      where : {id: id},
+      include: {
+        homeMatches: true,
+        awayMatches: true,
+      }
     }))
+  },
+
+  createMatch : async function (dataToCreate) {
+    return (await prisma.match.create({data : dataToCreate}))
   }
+  
 }
 
