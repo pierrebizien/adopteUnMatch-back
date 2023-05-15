@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const { createTeamBack } = require('./create.js')
 
 exports.newTeam = (req, res, next) => {
-
+	console.log('hello there')
     bcrypt.hash(req.body.password, 10)
 	.then (hash => 
 		{
