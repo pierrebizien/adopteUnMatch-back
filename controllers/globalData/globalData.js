@@ -56,3 +56,39 @@ exports.createMatch = (req, res, next) =>
 	})
 	.catch(e => console.log(e))
 }
+
+exports.getAllMatches = (req, res, next) => {
+	req_prisma.getAllMatches()
+	.then(resReq => res.status(200).json(resReq))
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
+
+exports.getMyMatches = (req, res, next) => {
+	req_prisma.getmyMatches(req.body.userId)
+	.then(resReq => res.status(200).json(resReq))
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
+
+exports.getPastMatches = (req, res, next) => {
+	req_prisma.getPastMatches(req.body.userId)
+	.then(resReq => res.status(200).json(resReq))
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
+
+exports.getUpcomingMatches = (req, res, next) => {
+	req_prisma.getUpcomingMatches(req.body.userId)
+	.then(resReq => res.status(200).json(resReq))
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
