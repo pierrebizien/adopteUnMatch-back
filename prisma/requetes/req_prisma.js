@@ -23,7 +23,10 @@ module.exports = {
 
   getAllMatches : async function () {
     return (await prisma.match.findMany({
-      where : {},
+      where : {
+        date: {
+        gte: new Date() 
+      }},
       include: {
         teamHome: true,
         teamAway: true,
@@ -34,6 +37,9 @@ module.exports = {
   getmyMatches : async function (id) {
     return (await prisma.match.findMany({
       where : {
+        date: {
+          gte: new Date() 
+        },
       OR : [
         {teamHomeId : id},
         {teamAwayId : id}
@@ -71,6 +77,31 @@ module.exports = {
         teamAway: true,
       }
   }))
+  },
+
+  getFreeMatches : async function () {
+    return (await prisma.match.findMany({
+      where : {
+        date: {
+          gte: new Date() 
+        },
+      OR : [
+        {teamAwayId : null}
+      ]
+      },
+      include: {
+        teamHome: true,
+        teamAway: true,
+      }
+    }))
+  },
+
+  joinMatch : async function (matchId , userId)
+  {
+    return (await prisma.match.update({
+      where: { id: matchId },
+      data: { teamAway: { connect: { id: userId } } },
+    }))
   }
 }
 

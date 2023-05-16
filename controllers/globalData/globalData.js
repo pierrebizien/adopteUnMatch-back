@@ -59,7 +59,11 @@ exports.createMatch = (req, res, next) =>
 
 exports.getAllMatches = (req, res, next) => {
 	req_prisma.getAllMatches()
-	.then(resReq => res.status(200).json(resReq))
+	.then(resReq =>{
+	resReq.map((item) => {
+		item.userId = req.body.userId;
+	});
+	res.status(200).json(resReq)})
 	.catch(e => {
 		console.log(e);
 		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
@@ -68,16 +72,24 @@ exports.getAllMatches = (req, res, next) => {
 
 exports.getMyMatches = (req, res, next) => {
 	req_prisma.getmyMatches(req.body.userId)
-	.then(resReq => res.status(200).json(resReq))
+	.then(resReq =>{
+		resReq.map((item) => {
+			item.userId = req.body.userId;
+		});
+		res.status(200).json(resReq)})
 	.catch(e => {
 		console.log(e);
 		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
 	})
 }
 
-exports.getPastMatches = (req, res, next) => {
-	req_prisma.getPastMatches(req.body.userId)
-	.then(resReq => res.status(200).json(resReq))
+exports.getFreeMatches = (req, res, next) => {
+	req_prisma.getFreeMatches()
+	.then(resReq =>{
+		resReq.map((item) => {
+			item.userId = req.body.userId;
+		});
+		res.status(200).json(resReq)})
 	.catch(e => {
 		console.log(e);
 		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
@@ -86,7 +98,25 @@ exports.getPastMatches = (req, res, next) => {
 
 exports.getUpcomingMatches = (req, res, next) => {
 	req_prisma.getUpcomingMatches(req.body.userId)
-	.then(resReq => res.status(200).json(resReq))
+	.then(resReq =>{
+		resReq.map((item) => {
+			item.userId = req.body.userId;
+		});
+		res.status(200).json(resReq)})
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
+
+exports.joinTeamToMatch = (req, res, next) => {
+	console.log('tentative de rejoindre un match');
+	req_prisma.joinMatch(req.body.matchId, req.body.userId)
+	.then(resReq =>{
+		console.log(resReq);
+		res.status(201).json({
+			message: "Demande enregistree"
+		})})
 	.catch(e => {
 		console.log(e);
 		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})

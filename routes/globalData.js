@@ -10,7 +10,7 @@ routeur.post('/newteam', auth.auth, globalDataCtrl.createMatch);
 
 routeur.get('/getallmatches', auth.auth, globalDataCtrl.getAllMatches)
 routeur.get('/getmymatches', auth.auth, globalDataCtrl.getMyMatches)
-routeur.get('/getpastmatches', auth.auth, globalDataCtrl.getPastMatches)
+routeur.get('/getfreematches', auth.auth, globalDataCtrl.getFreeMatches)
 routeur.get('/getupcomingmatches', auth.auth, globalDataCtrl.getUpcomingMatches)
-
+routeur.put('/jointeamtomatch', auth.auth, globalDataCtrl.joinTeamToMatch)
 module.exports = routeur;
