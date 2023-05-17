@@ -7,7 +7,6 @@ const { format, parseISO } = require('date-fns');
 const formattedDate = format(parseISO('2023-05-24'), 'yyyy-MM-dd HH:mm:ss');
 exports.getname = (req, res, next) => 
 {
-	console.log('REQ GetName')
 	const decodedToken = checkToken(req, res, next);
 	if (decodedToken)
 	{
@@ -35,7 +34,6 @@ exports.getname = (req, res, next) =>
 exports.createMatch = (req, res, next) =>
 {
 	const formattedDate = new Date(req.body.date)
-	console.log('Creation de Team', req.body.userId);
 	req_prisma.getTeamById(req.body.userId)
 	.then(resReq => {
 			console.log(resReq);
@@ -58,7 +56,7 @@ exports.createMatch = (req, res, next) =>
 }
 
 exports.getAllMatches = (req, res, next) => {
-	req_prisma.getAllMatches()
+	req_prisma.getAllMatches(req.body.page)
 	.then(resReq =>{
 	resReq.map((item) => {
 		item.userId = req.body.userId;
@@ -71,7 +69,7 @@ exports.getAllMatches = (req, res, next) => {
 }
 
 exports.getMyMatches = (req, res, next) => {
-	req_prisma.getmyMatches(req.body.userId)
+	req_prisma.getmyMatches(req.body.userId, req.body.page)
 	.then(resReq =>{
 		resReq.map((item) => {
 			item.userId = req.body.userId;
@@ -84,7 +82,7 @@ exports.getMyMatches = (req, res, next) => {
 }
 
 exports.getFreeMatches = (req, res, next) => {
-	req_prisma.getFreeMatches()
+	req_prisma.getFreeMatches(req.body.page)
 	.then(resReq =>{
 		resReq.map((item) => {
 			item.userId = req.body.userId;
@@ -97,7 +95,7 @@ exports.getFreeMatches = (req, res, next) => {
 }
 
 exports.getUpcomingMatches = (req, res, next) => {
-	req_prisma.getUpcomingMatches(req.body.userId)
+	req_prisma.getUpcomingMatches(req.body.page)
 	.then(resReq =>{
 		resReq.map((item) => {
 			item.userId = req.body.userId;
@@ -110,7 +108,6 @@ exports.getUpcomingMatches = (req, res, next) => {
 }
 
 exports.joinTeamToMatch = (req, res, next) => {
-	console.log('tentative de rejoindre un match');
 	req_prisma.joinMatch(req.body.matchId, req.body.userId)
 	.then(resReq =>{
 		console.log(resReq);
@@ -121,4 +118,27 @@ exports.joinTeamToMatch = (req, res, next) => {
 		console.log(e);
 		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
 	})
+}
+
+exports.getMyTeam = (req, res, next) => {
+	req_prisma.getMyTeam(req.body.userId)
+	.then(resReq =>{
+		console.log(resReq);
+		res.status(201).json(resReq)
+	})
+	.catch(e => {
+		console.log(e);
+		res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+	})
+}
+exports.getMyLastFive = (req, res, next) => {
+		req_prisma.getMyLastFive(req.body.userId)
+		.then(resReq =>{
+			console.log(resReq);
+			res.status(201).json(resReq)
+		})
+		.catch(e => {
+			console.log(e);
+			res.status(500).json({message : "Erreur serveur lors de la recuperation des matchs"})
+		})
 }

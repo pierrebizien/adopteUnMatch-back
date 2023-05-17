@@ -21,8 +21,10 @@ module.exports = {
     return (await prisma.match.create({data : dataToCreate}))
   },
 
-  getAllMatches : async function () {
+  getAllMatches : async function (page) {
     return (await prisma.match.findMany({
+      skip : (page - 1)*8,
+      take : 8,
       where : {
         date: {
         gte: new Date() 
@@ -30,12 +32,17 @@ module.exports = {
       include: {
         teamHome: true,
         teamAway: true,
-      }
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
     }));
   },
 
-  getmyMatches : async function (id) {
+  getmyMatches : async function (id, page) {
     return (await prisma.match.findMany({
+      skip : (page - 1)*8,
+      take : 8,
       where : {
         date: {
           gte: new Date() 
@@ -48,11 +55,16 @@ module.exports = {
       include: {
         teamHome: true,
         teamAway: true,
-      }
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
     }))
   },
-  getPastMatches : async function () {
+  getPastMatches : async function (page) {
     return (await prisma.match.findMany({
+      skip : (page - 1)*8,
+      take : 8,
       where : {
         date: {
           lt: new Date() 
@@ -61,12 +73,17 @@ module.exports = {
       include: {
         teamHome: true,
         teamAway: true,
-      }
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
   }))
   },
 
-  getUpcomingMatches : async function () {
+  getUpcomingMatches : async function (page) {
     return (await prisma.match.findMany({
+      skip : (page - 1)*8,
+      take : 8,
       where : {
         date: {
           gte: new Date() 
@@ -75,12 +92,17 @@ module.exports = {
       include: {
         teamHome: true,
         teamAway: true,
-      }
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
   }))
   },
 
-  getFreeMatches : async function () {
+  getFreeMatches : async function (page) {
     return (await prisma.match.findMany({
+      skip : (page - 1)*8,
+      take : 8,
       where : {
         date: {
           gte: new Date() 
@@ -92,7 +114,10 @@ module.exports = {
       include: {
         teamHome: true,
         teamAway: true,
-      }
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
     }))
   },
 
@@ -102,6 +127,28 @@ module.exports = {
       where: { id: matchId },
       data: { teamAway: { connect: { id: userId } } },
     }))
+  },
+
+  getMyTeam : async function (userId)
+  {
+    return (await prisma.team.findUnique({
+      where: {id: userId}
+    }))
+  },
+
+  getMyLastFive : async function (userId)
+  {
+    return (await prisma.match.findMany({
+      take : 5,
+      where: {
+        OR : [{teamHomeId: userId}, {teamAwayId: userId}],
+        date : {gte : new Date()}
+      },
+      orderBy : [
+        {date : 'asc'}
+      ]
+      }
+         ))
   }
 }
 
