@@ -13,14 +13,14 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
-
+// app.use('/', (req, res, next) => console.log('coucou'))
 app.use('/api/signup', signupRoutes);
 app.use('/api/login', loginRoutes);
 app.use('/api/verif', verifRoutes)
 app.use('/api/globaldata', globalDataRoutes)
 
 
-app.get('/', (req, res, next) =>{
+app.use('/', (req, res, next) =>{
 	console.log('REQ 404')
 	res.status(404).json({message : 'Erreur 404'});
 	next();
