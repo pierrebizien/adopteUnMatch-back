@@ -142,8 +142,12 @@ module.exports = {
       take : 5,
       where: {
         OR : [{teamHomeId: userId}, {teamAwayId: userId}],
-        date : {gte : new Date()}
-      },
+        date : {gte : new Date()},
+	},
+		include: {
+		teamHome: true,
+		teamAway: true,
+	  },
       orderBy : [
         {date : 'asc'}
       ]

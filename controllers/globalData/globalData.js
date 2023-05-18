@@ -134,7 +134,9 @@ exports.getMyTeam = (req, res, next) => {
 exports.getMyLastFive = (req, res, next) => {
 		req_prisma.getMyLastFive(req.body.userId)
 		.then(resReq =>{
-			console.log(resReq);
+			resReq.map((item) => {
+				item.userId = req.body.userId;
+			});
 			res.status(201).json(resReq)
 		})
 		.catch(e => {
